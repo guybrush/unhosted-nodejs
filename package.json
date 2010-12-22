@@ -1,0 +1,21 @@
+{
+    "name": "unhosted"
+    , "description": "Unhosted storage node as connect middleware"
+    ,  "version": "v0.1.0"
+    , "author": "Daniel Gröber <dxld@darkboxed.org>"
+
+    , "main": "./lib/unhosted"
+     
+    , "repository": {
+        "type": "git"
+        , "url": "https://github.com/michiel-unhosted/unhosted.git"
+    }
+
+    , "dependencies": {
+        "connect": ">=0.5.0"
+        , "step": ">=0.0.3"
+        , "nstore": ">=0.3.0"
+    }
+
+    , "engines": { "node": ">= 0.2.5" }
+}
