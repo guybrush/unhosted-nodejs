@@ -24,10 +24,7 @@ var assert_unhosted = function(method, options){
     var data = options.data || '';
     var cmd = options.cmd || null;
     var headers = options.headers || {};
-    
-    
     var response = options.response || { body: /OK/};
-    
 
     var request = {
         url: '/'
@@ -58,9 +55,9 @@ var assert_unhosted = function(method, options){
             data += '&cmd=' + cmd;
         }
     }
-    
+
     request.data = data;
-    
+
     var gotRes = false;
     var app =  UnhostedApp.createServer({}, function(){
         assert.response(app, request
@@ -69,7 +66,7 @@ var assert_unhosted = function(method, options){
                             gotRes = true;
                         });
     });
-    
+
     beforeExit(function(){
         assert.equal(true, gotRes, 'Unhosted request not successful');
     });

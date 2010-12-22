@@ -1,36 +1,26 @@
+var data = require('./fixtures/test-data');
 var assert = require('assert');
-assert.unhosted = require('../lib/assert-unhosted');
-
 var errors = require('../lib/errors')
-var UnhostedApp = require('app');
-var Unhosted = require('unhosted');
+var assert_unhosted = require('./lib/assert-unhosted');
 
-function setupUnhostedServer(cb){
-    return UnhostedApp.createServer({}, cb);
-}
-
-var protocol = 'protocol=UJ/0.1';
-
-var testData = { that: 'is mah data'};
-var testKeyPath = '/some/key/in/here';
-var testPubSign = 'BADF00D';
+assert.unhosted = assert_unhosted;
 
 var genericCmd = {
-    chan: 'test'
-    , keyPath: testKeyPath
-    , value: testData
+    chan: data.chan
+    , keyPath: data.keyPath
+    , value: data.someData
 }
 
-var invalidCmd = 'Some%20invalid%20json%2C%20Z%3D%22%C2%A7Q%2FZ%25%3D';
-
+var authData = 'WriteCaps='+ data.writeCaps +'&PubSign=' + data.pubSign;
+var referer = 'http://example.com/'
 
 module.exports = {
     'test Unhosted#SET': function(beforeExit){
         assert.unhosted('SET', {
             beforeExit: beforeExit
-            , referer: 'http://example.com/'
-            , protocol: 'UJ/0.1'
-            , data: 'WriteCaps=asdf&PubSign=BADF00D'
+            , referer: referer
+            , protocol: data.protocol
+            , data: authData
             , cmd: genericCmd
         });
     }
@@ -47,7 +37,7 @@ module.exports = {
     , 'test Unhosted#SET missing protocol': function(beforeExit){
         assert.unhosted('SET', {
             beforeExit: beforeExit
-            , referer: 'http://example.com'
+            , referer: refrerer
             , cmd: genericCmd
             , response: {
                 body: 'ERROR: ' + errors['_PROTOCOL'] + '\n'
@@ -58,9 +48,9 @@ module.exports = {
     , 'test Unhosted#SET INVALID_JSON': function(beforeExit){
         assert.unhosted('SET', {
             beforeExit: beforeExit
-            , referer: 'http://example.com'
-            , protocol: 'UJ/0.1'
-            , cmd: invalidCmd
+            , referer: referer
+            , protocol: data.protocol
+            , cmd: data.invalidJson
             , response: {
                 body: 'ERROR: ' + errors['_INVALID_JSON'] + '\n'
             }
@@ -70,11 +60,11 @@ module.exports = {
     , 'test Unhosted#SET missing chan': function(beforeExit){
         assert.unhosted('SET', {
             beforeExit: beforeExit
-            , referer: 'http://example.com'
-            , protocol: 'UJ/0.1'
+            , referer: referer
+            , protocol: data.protocol
             , cmd: {
-                keyPath: testKeyPath
-                , value: testData
+                keyPath: data.keyPath
+                , value: data.someData
             }
             , response: {
                 body: 'ERROR: Field "chan" missing. ' + errors['SET']['chan'] + '\n'
@@ -85,11 +75,11 @@ module.exports = {
     , 'test Unhosted#SET missing keyPath': function(beforeExit){
         assert.unhosted('SET', {
             beforeExit: beforeExit
-            , referer: 'http://example.com'
-            , protocol: 'UJ/0.1'
+            , referer: referer
+            , protocol: data.protocol
             , cmd: {
-                chan: 'test'
-                , value: testData
+                chan: data.chan
+                , value: data.someData
             }
             , response: {
                 body: 'ERROR: Field "keyPath" missing. ' + errors['SET']['keyPath'] + '\n'
@@ -100,11 +90,11 @@ module.exports = {
     , 'test Unhosted#SET missing value': function(beforeExit){
         assert.unhosted('SET', {
             beforeExit: beforeExit
-            , referer: 'http://example.com'
-            , protocol: 'UJ/0.1'
+            , referer: referer
+            , protocol: data.protocol
             , cmd: {
-                chan: 'test'
-                , keyPath: testKeyPath
+                chan: data.chan
+                , keyPath: data.keyPath
             }
             , response: {
                 body: 'ERROR: Field "value" missing. ' + errors['SET']['value'] + '\n'
