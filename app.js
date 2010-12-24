@@ -18,7 +18,7 @@ var createServer = function(options, callback){
     var store = options.db || new nStoreStorageBackend();
 
     if(!store.initialized) {
-        store.init({}, callback);
+        store.init(options.dbOptions || {}, callback);
     } else {
         process.nextTick(function(){
             callback(null);

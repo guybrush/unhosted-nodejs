@@ -1,12 +1,13 @@
 /*
  * HTTP Response assertion helper
  */
+var fs = require('fs');
+var path = require('path');
 var assert = require('assert');
 assert.unhosted = require('./assert-unhosted');
 
 var errors = require('../../lib/errors')
 var UnhostedApp = require('../../app');
-
 
 function extend(destination,source) {
     for (var prop in source){
@@ -59,7 +60,22 @@ var assert_unhosted = function(method, options){
     request.data = data;
 
     var gotRes = false;
-    var app =  UnhostedApp.createServer({}, function(){
+    var options = {
+        dbOptions: { path: path.normalize(__dirname +  '/../tmp/test-set.db') }
+    }
+
+    // Ensure test/tmp exists
+    try {
+        fs.mkdirSync(path.dirname(options.dbOptions.path), 755);
+    } catch(e) {
+        if(e.errno !== process.EEXIST) {
+            throw e;
+        }
+    }
+
+    var app =  UnhostedApp.createServer(options, function(err){
+        if(err) throw err;
+
         assert.response(app, request
                         , response
                         , function(res){
