@@ -66,7 +66,7 @@ var assert_unhosted = function(method, options){
 
     // Ensure test/tmp exists
     try {
-        fs.mkdirSync(path.dirname(options.dbOptions.path), 755);
+        fs.mkdirSync(path.dirname(options.dbOptions.path), 0755);
     } catch(e) {
         if(e.errno !== process.EEXIST) {
             throw e;
