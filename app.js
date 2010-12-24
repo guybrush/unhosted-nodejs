@@ -24,21 +24,8 @@ var createServer = function(options, callback){
             callback(null);
         });
     }
-    
-    var indexRouter = connect.router(function(app){
-        // Index page
-        app.get('/', function(req, res, next){
-            res.writeHead({ 'content-type': 'text/html' });
-            res.end('<a href="/genkey/genkey.html">Generate Key</a>'
-                    + '<br /><a href="/examples/wappblog/bootloader.html">Blog</a>'
-                    + '<br /><a href="/examples/wappbook/bootloader.html">Book</a>'
-                    + '<br /><a href="/examples/wappmail/bootloader.html">Mail</a>');
-        });
-    });
-    
+
     // Setup middleware stack
-    app.use(staticProvider(path.normalize(process.cwd() + '/../../wappside/')));
-    app.use(indexRouter);
     app.use(bodyDecoder());
     app.use(Unhosted({store: store}));
     app.use(errorHandler);
