@@ -37,7 +37,7 @@ module.exports = {
     , 'test Unhosted#SET missing protocol': function(beforeExit){
         assert.unhosted('SET', {
             beforeExit: beforeExit
-            , referer: refrerer
+            , referer: referer
             , cmd: genericCmd
             , response: {
                 body: 'ERROR: ' + errors['_PROTOCOL'] + '\n'
