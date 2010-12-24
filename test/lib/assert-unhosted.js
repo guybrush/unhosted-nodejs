@@ -4,8 +4,8 @@
 var assert = require('assert');
 assert.unhosted = require('./assert-unhosted');
 
-var errors = require('./errors')
-var UnhostedApp = require('../app');
+var errors = require('../../lib/errors')
+var UnhostedApp = require('../../app');
 
 
 function extend(destination,source) {
