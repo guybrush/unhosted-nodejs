@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-var connect  = require('connect')
-  , Unhosted = require('./lib/unhosted')
+var app      = require('./app.js')
   , args     = process.argv.slice(2)
   , version  = '0.1.0'
   , usage    = 'unhosted-nodejs ('+version+')\n\n'
@@ -10,10 +9,12 @@ var connect  = require('connect')
              + '  -h, --help         Output usage information.\n'
              + '  -H, --host ADDR    Host address, defaults to INADDR_ANY.\n'
              + '  -p, --port NUM     Port number, defaults to 8040.\n'
-             + '  -s, --store ???    Select storage (not implemented yet).\n'
-             + '  -c, --config PATH  Load configuration file (json).\n'
+          // + '  -s, --store ???    Select storage.\n'
+          // + '  -c, --config PATH  Load configuration file (json).\n'
   , port, host, store
   ;
+
+if (!args.length) abort(usage);
   
 while (args.length) {
   var arg = args.shift();
@@ -50,26 +51,12 @@ while (args.length) {
         ? (host = args.shift())
         : abort('--config requires an argument');        
       break;
-    default:;
+    default:break;
   }
 }
 
-(function createServer() {   
-  port = port || 8030;
-  host = host || '127.0.0.1';
-
-  var app = connect.createServer();  
-  app.use(connect.bodyDecoder());
-  app.use(Unhosted({store: store}));
-  app.use(connect.errorHandler);
-  app.listen(port);
-  console.log('unhosted running on '+host+':'+port);
-})();
-
-function errorHandler(err, req, res, next) {
-  res.writeHead(500, { 'Content-Type': 'text/plain' });
-  res.end('ERROR: ' + err.message);
-};
+app.listen(port, host);
+console.log('unhosted running on '+host+':'+port);
 
 function abort(str) {
   console.error(str);
