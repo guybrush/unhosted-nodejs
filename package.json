@@ -1,11 +1,13 @@
 {
     "name": "unhosted"
     , "description": "Unhosted storage node as connect middleware"
-    ,  "version": "v0.1.0"
+    , "version": "v0.1.0"
+    
     , "author": "Daniel Gröber <dxld@darkboxed.org>"
-
+    , "contributors": ["Patrick Pfeiffer <patrick@buzzle.at>"]
+    
     , "main": "./lib/unhosted"
-     
+    , "bin": {"unhosted": "./cli.js"}
     , "repository": {
         "type": "git"
         , "url": "https://github.com/DanielG/unhosted-nodejs.git"
