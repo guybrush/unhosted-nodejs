@@ -1,20 +1,27 @@
 #!/usr/bin/env node
 
-var app      = require('./app.js')
-  , args     = process.argv.slice(2)
-  , version  = '0.1.0'
-  , usage    = 'unhosted-nodejs ('+version+')\n\n'
-             + 'Usage: unhosted [options]\n\n'
-             + 'Options:\n'
-             + '  -h, --help         Output usage information.\n'
-             + '  -H, --host ADDR    Host address, defaults to INADDR_ANY.\n'
-             + '  -p, --port NUM     Port number, defaults to 8040.\n'
-          // + '  -s, --store ???    Select storage.\n'
-          // + '  -c, --config PATH  Load configuration file (json).\n'
-  , port, host, store
+var app        = require('./app.js')
+  , args       = process.argv.slice(2)
+  , port       = 8040
+  , host       = 'localhost'
+  , store      = null
+  , staticPath = null
+  , version    = '0.1.0'
+  , usage      = 'unhosted-nodejs ('+version+')\n\n'
+               + 'Usage: unhosted [options]\n\n'
+               + 'Options:\n'
+               + '  -v, --version      Output version.\n'
+               + '  -h, --help         Output usage information.\n'
+               + '  -H, --host ADDR    Host address, defaults to "localhost".\n' 
+               + '  -p, --port NUM     Port number, defaults to 8040.\n'
+               + '  -S, --static PATH  Serve static files.\n'
+          //   + '  -s, --store DSN    Data Source Name - e.g.: \n'
+          //   + '                       mysql://user:pwd@unix/path/to/socket\n'
+          //   + '                       nstore:////full/unix/path/to/file.db\n'
+          //   + '                       sqlite:////full/unix/path/to/file.db\n'
+          //   + '                       redis:////full/unix/path/to/file.db\n'
+          //   + '  -c, --config PATH  Load configuration file (json).\n'
   ;
-
-if (!args.length) abort(usage);
   
 while (args.length) {
     var arg = args.shift();
@@ -44,6 +51,12 @@ while (args.length) {
             args.length
                 ? (store = args.shift())
                 : abort('--store requires an argument');        
+            break;
+        case '-S':
+        case '--static':
+            args.length
+                ? (staticPath = args.shift())
+                : abort('--static requires an argument');        
             break;
         case '-c': // unhostedConfig.json
         case '--config':

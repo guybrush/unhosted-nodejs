@@ -4,6 +4,14 @@ var connect = require('connect')
   , app = module.exports = connect.createServer()
   ;
 
+if (!store.initialized) {
+  store.init({}, function(){console.log('init db')});
+} else {
+  process.nextTick(function(){
+    callback(null);
+  });
+}
+  
 app.use(connect.bodyDecoder());
 app.use(Unhosted({store:store}));
 app.use(connect.errorHandler());
