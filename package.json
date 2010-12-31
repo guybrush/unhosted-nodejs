@@ -5,7 +5,11 @@
     , "author": "Daniel Gröber <dxld@darkboxed.org>"
 
     , "main": "./lib/unhosted"
-     
+
+    , "modules": {
+        "app": "./app.js"
+    }
+
     , "repository": {
         "type": "git"
         , "url": "https://github.com/DanielG/unhosted-nodejs.git"
