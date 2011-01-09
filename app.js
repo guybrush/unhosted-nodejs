@@ -8,7 +8,7 @@ var Unhosted = require('./lib/unhosted');
 
 var errorHandler = function errorHandler(err, req, res, next){
     res.writeHead(500, { 'Content-Type': 'text/plain' });
-    res.end('ERROR: ' + err.message);
+    res.end(JSON.stringify({ message: err.message }));
 };
 
 var createServer = function(options, callback){    
